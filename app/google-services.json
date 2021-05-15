@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "213157501788",
+    "project_id": "sabesdondeesta-3ab95",
+    "storage_bucket": "sabesdondeesta-3ab95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213157501788:android:c6a130674303818c14ff99",
+        "android_client_info": {
+          "package_name": "com.alsebo.sabesdondeesta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213157501788-bj341icv4pegol82ps7keerjvni0ujbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alsebo.sabesdondeesta",
+            "certificate_hash": "a909ca249c88080b1d4426642081d7ae382b0435"
+          }
+        },
+        {
+          "client_id": "213157501788-bo3smgh7omtkfkanovqpdjebb0g2dm69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5TaxwLm59mdQ6zRF1OyDWQkgCcItjzhY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213157501788-bo3smgh7omtkfkanovqpdjebb0g2dm69.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
