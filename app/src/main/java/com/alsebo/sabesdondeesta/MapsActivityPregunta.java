@@ -1,30 +1,25 @@
 package com.alsebo.sabesdondeesta;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class MapsActivityPregunta extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener {
 
@@ -37,9 +32,6 @@ public class MapsActivityPregunta extends FragmentActivity implements OnMapReady
     private static final String TAG = "MapsActivityPregunta";
 
 
-    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    Map<String, Object> pregunt = new HashMap<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,22 +41,10 @@ public class MapsActivityPregunta extends FragmentActivity implements OnMapReady
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
         textoPregunta = (EditText) findViewById(R.id.preguntaEdit);
         textoRespuesta = (TextView) findViewById(R.id.respuestaEdit);
 
-
-        db.collection("questions.users").whereNotEqualTo("pregunta",null )
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                                cont=task.getResult().size();
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
     }
 
 
@@ -81,7 +61,22 @@ public class MapsActivityPregunta extends FragmentActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
+
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style));
+
+            if (!success) {
+                Log.e("TAG", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("TAG", "Can't find style. Error: ", e);
+        }
     }
 
     //ACCION PARA MARCAR ZONA AL PULSAR EN EL MAPA
@@ -95,21 +90,8 @@ public class MapsActivityPregunta extends FragmentActivity implements OnMapReady
 
     @Override
     public void onClick(View view) {
-        pregunt.put("pregunta", textoPregunta.getText().toString());
-        pregunt.put("latitude", pregunta.latitude);
-        pregunt.put("longitude", pregunta.longitude);
 
-        cont++;
-        db.collection("questions.users")
-                .document(String.valueOf(cont)).set(pregunt)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("error", "Error adding document", e);
-                    }
-                });
-        textoRespuesta.setText("latitude ="+pregunta.latitude+"\nlongitude ="+pregunta.longitude);
-        dialog();
+
     }
 
     public void dialog() {
@@ -120,7 +102,6 @@ public class MapsActivityPregunta extends FragmentActivity implements OnMapReady
     }
 
     public void salir(View view) {
-        Intent map = new Intent(this, MainActivityMenu.class);
-        startActivity(map);
+        finish();
     }
 }

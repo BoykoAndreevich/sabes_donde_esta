@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "222728818485",
-    "firebase_url": "https://sabes-donde-esta-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "sabes-donde-esta",
-    "storage_bucket": "sabes-donde-esta.appspot.com"
+    "project_number": "818139647583",
+    "project_id": "sabesdondeesta-1ce32",
+    "storage_bucket": "sabesdondeesta-1ce32.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:222728818485:android:fbebb36600b9547640867c",
+        "mobilesdk_app_id": "1:818139647583:android:9c892d4f92f2af465395ea",
         "android_client_info": {
           "package_name": "com.alsebo.sabesdondeesta"
         }
       },
       "oauth_client": [
         {
-          "client_id": "222728818485-idkobio7nb4im651gl1nndvv3ikku2ri.apps.googleusercontent.com",
+          "client_id": "818139647583-uq70leev8kb3bsuceh8o4q83pnjj97lo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alsebo.sabesdondeesta",
+            "certificate_hash": "91f9e036566854787e379527527760203b37eb76"
+          }
+        },
+        {
+          "client_id": "818139647583-10j3m8g006ibodfpnapqld87mhrt1j0n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAdDNeDaJ2XxhS8FeDPd2zsjUAFmFb8FtE"
+          "current_key": "AIzaSyA0VdVbFJFsYdIqpy48WBT706pExVc9qEA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "222728818485-idkobio7nb4im651gl1nndvv3ikku2ri.apps.googleusercontent.com",
+              "client_id": "818139647583-10j3m8g006ibodfpnapqld87mhrt1j0n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

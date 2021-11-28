@@ -1,62 +1,49 @@
 package com.alsebo.sabesdondeesta;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import static com.alsebo.sabesdondeesta.MainActivity.db;
-import static com.alsebo.sabesdondeesta.MainActivity.email;
+public class MainActivityMenu extends AppCompatActivity implements View.OnClickListener{
 
-public class MainActivityMenu extends AppCompatActivity implements View.OnClickListener {
-
-    public static long puntos;
     Boolean pregunta = false;
     Boolean dificil;
+    private static final String TAG = "MainActivityMenu";
+    FirebaseFirestore db;
+    public static TextView punt;
+    String emaile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
 
-        TextView punt = (TextView) findViewById(R.id.textViewPuntos);
-        db.collection("users")
-                .document(email.getText().toString()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                puntos= (long) document.get("puntuacion");
-                                punt.setText(String.valueOf(document.get("puntuacion")));
-                            }
-                        } else {
-                            Log.w("error", "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-
+        punt = (TextView) findViewById(R.id.textViewPuntos);
         ImageView imagen = (ImageView) findViewById(R.id.radio);
+
         Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.animacion);
         imagen.startAnimation(hyperspaceJumpAnimation);
 
@@ -69,17 +56,46 @@ public class MainActivityMenu extends AppCompatActivity implements View.OnClickL
         ImageButton reinicio = (ImageButton) findViewById(R.id.reinicioButton);
         reinicio.setOnClickListener(this);
 
+        FirebaseUser use = FirebaseAuth.getInstance().getCurrentUser();
+        if (use != null) {
+             emaile = use.getEmail();
+        }
+
         Switch dificultad = (Switch) findViewById(R.id.switchDificultad);
         dificultad.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean pulsado) {
-                if (pulsado){
+            public void onCheckedChanged(CompoundButton buttonView, boolean pulsado){
+                if (pulsado) {
                     confirmar();
-                }else{
+                } else {
                     dificil = false;
                 }
             }
         });
+
+        db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("jugador").document(emaile);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        punt.setText(document.getLong("puntuacion").toString());
+                        pregunta = document.getBoolean("profesor");
+                        //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -87,18 +103,17 @@ public class MainActivityMenu extends AppCompatActivity implements View.OnClickL
         Intent maps = new Intent(this, MapsActivity.class);
         switch (view.getId()) {
             case R.id.monumentosButton:
-                //finish();
                 maps.putExtra("tipo","monumentos");
+                maps.putExtra("modo",dificil);
                 startActivity(maps);
+                finish();
                 break;
 
             case R.id.usersButton:
                 if (pregunta == false) {
                     premiun();
                 } else {
-                    finish();
-                    Intent map = new Intent(this, MapsActivityPregunta.class);
-                    startActivity(map);
+
                 }
                 break;
 
@@ -106,7 +121,8 @@ public class MainActivityMenu extends AppCompatActivity implements View.OnClickL
                 if (pregunta == false) {
                    premiun();
                 } else {
-
+                    Intent map = new Intent(this, MapsActivityPregunta.class);
+                    startActivity(map);
                 }
                 break;
 
@@ -138,14 +154,10 @@ public class MainActivityMenu extends AppCompatActivity implements View.OnClickL
         dialog.show();
     }
 
-    /**public void logOut(View view) {
-        FirebaseAuth.getInstance().signOut();
-        onBackPressed();
-    }*/
-
     public void premiun() {
         AlertDialog.Builder builderPregunta = new AlertDialog.Builder(this);
-        builderPregunta.setMessage("Este modo esta desactivado, debido a que su uso es exclusivo es para el modo PREMIUN");
+        builderPregunta.setMessage("Este modo esta desactivado, debido a que su uso es exclusivo es para el modo PREMIUN. Podras añadir tus propias preguntas " +
+                "y respuesta ademas de hacer la de otros usuarios. Para a ver quien se ubica mejor");
         builderPregunta.setTitle("¡ATENCION!");
         builderPregunta.setPositiveButton("¡ACTIVAR PREMIUN!", new DialogInterface.OnClickListener() {
             @Override
@@ -163,9 +175,9 @@ public class MainActivityMenu extends AppCompatActivity implements View.OnClickL
 
     public void reinicio() {
         AlertDialog.Builder builderPregunta = new AlertDialog.Builder(this);
-        builderPregunta.setMessage("Este modo esta desactivado, debido a que su uso es exclusivo es para el modo PREMIUN");
-        builderPregunta.setTitle("¡ATENCION!");
-        builderPregunta.setPositiveButton("¡ACTIVAR PREMIUN!", new DialogInterface.OnClickListener() {
+        builderPregunta.setMessage("¿Deseas reiniciar tu puntuacion a 0 y volver a comenzar? ");
+        builderPregunta.setTitle("BORRAR PUNTUACION");
+        builderPregunta.setPositiveButton("aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }
@@ -181,7 +193,8 @@ public class MainActivityMenu extends AppCompatActivity implements View.OnClickL
 
     public void confirmar() {
         AlertDialog.Builder builderPregunta = new AlertDialog.Builder(this);
-        builderPregunta.setMessage("Este modo");
+        builderPregunta.setMessage("Aqui aumentaras la dificultad, si tu respuesta esta a mas de 25km de la respuesta correcta" +
+                "se te restaran 100 puntos. Ademas tendras un tiempo limitado de 10s seg para contestar.");
         builderPregunta.setTitle("¡MODO SUPER DIFICIL!");
         builderPregunta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

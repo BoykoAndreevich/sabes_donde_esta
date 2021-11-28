@@ -32,6 +32,10 @@
     <string name="acerca">Acerca</string>
     <string name="registrar">Registrar</string>
     <string name="acceder">Acceder</string>
+    <string name="ya_s">¡YA SÉ!</string>
+    <string name="ni_idea">ni idea</string>
+    <string name="siguiente_pregunta">SIGUIENTE PREGUNTA</string>
+
 
 
 </resources>

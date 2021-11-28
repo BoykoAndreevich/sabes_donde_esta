@@ -21,7 +21,8 @@ public class MainActivityAcerca extends AppCompatActivity implements View.OnClic
     //BOTON PARA VOLVER A LA ACTIVIDAD ANTERIOR
     @Override
     public void onClick(View view) {
-        Intent home = new Intent(this, MainActivity.class);
-        startActivity(home);
+        //Intent home = new Intent(this, MainActivity.class);
+        // startActivity(home);
+        finish();
     }
 }

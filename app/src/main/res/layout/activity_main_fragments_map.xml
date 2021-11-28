@@ -16,10 +16,12 @@
 
         <TextView
             android:id="@+id/preguntaEdit"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
+            android:layout_width="405dp"
+            android:layout_height="59dp"
+            android:background="#E91E63"
             android:gravity="center"
             android:textColor="#F6F1F1"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,51 +29,66 @@
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="267dp"
-            android:layout_height="63dp"
-            android:text="¡YA SÉ!"
+            android:layout_width="254dp"
+            android:layout_height="55dp"
+            android:background="#9C27B0"
+            android:text="@string/ya_s"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.27"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/preguntaEdit"
             app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/imageView3"
+        <Button
+            android:id="@+id/buttonNoSe"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:onClick="volver"
-            android:src="@drawable/satelite"
+            android:background="#673AB7"
+            android:text="@string/ni_idea"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/button3"
-            app:layout_constraintTop_toTopOf="@+id/button3" />
+            app:layout_constraintTop_toBottomOf="@+id/preguntaEdit"
+            tools:textSize="16sp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSiguiente"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="1.0"
         app:uiZoomControls="true"
         tools:context=".MapsActivity" />
 
-    <ImageButton
-        android:id="@+id/borrarButton"
-        android:layout_width="91dp"
-        android:layout_height="77dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        android:background="#00F4F0EF"
-        android:onClick="borrarTodo"
-        android:src="@drawable/gomaborrar"
+    <Button
+        android:id="@+id/buttonSiguiente"
+        android:layout_width="292dp"
+        android:layout_height="53dp"
+        android:background="@color/botomSiguiente"
+        android:text="@string/siguiente_pregunta"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/imageButtonAtras"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#4CAF50"
+        android:src="@drawable/ic_baseline_subdirectory_arrow_left_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSiguiente"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonSiguiente" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
