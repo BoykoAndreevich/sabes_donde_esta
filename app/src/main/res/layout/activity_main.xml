@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/xxx"
+    android:background="@drawable/portada"
     android:padding="24dp"
     tools:context=".MainActivity">
 
@@ -12,6 +12,7 @@
         android:id="@+id/button2"
         android:layout_width="0dp"
         android:layout_height="58dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/acerca"
         android:textColor="#E0E0E0"
         android:textSize="18sp"
@@ -21,37 +22,10 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="TextContrastCheck,TextContrastCheck" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="308dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.582"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tierra"
-        android:contentDescription="@string/todo" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/sabes_d_nde_est"
-        android:textColor="#F44336"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="146dp"
+        android:layout_width="356dp"
+        android:layout_height="174dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,9 +38,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/email"
+            android:importantForAutofill="no"
             android:inputType="textEmailAddress"
-            android:minHeight="48dp"
-            android:importantForAutofill="no" />
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/passwordEditText"
@@ -83,7 +57,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button

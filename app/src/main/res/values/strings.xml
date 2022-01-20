@@ -17,12 +17,10 @@
     <string name="todo">TODO</string>
     <string name="bienvenidos_a_sabes_d_nde_est_ncon_esta_aplicacion_podr_s_disfrutar_aprendiendo_y_jugando_a_ubicar_los_sitios_mas_incre_bles_del_mundo_de_la_manera_f_cil_y_sencilla_una_vez_que_presiones_jugar_y_elijas_el_tema_de_las_preguntas_tu_solo_tienes_que_pulsar_donde_crees_que_se_encuentra_ese_lugar_en_el_google_maps_y_pulsar_el_bot_n_ya_s_entonces_te_pondr_una_puntuaci_n_y_los_km_que_te_has_acercado_a_la_respuesta_correcta_divi_rtete_y_aprende">¡Bienvenidos a ¿Sabes dónde está?! \nCon esta aplicacion podrás disfrutar aprendiendo y jugando a ubicar los sitios mas increíbles del mundo de la manera fácil y sencilla. Una vez que presiones jugar y elijas el tema de las preguntas, tu solo tienes que pulsar donde crees que se encuentra ese lugar en el Google Maps y pulsar el botón ¡YA SÉ! entonces te pondrá una puntuación y los km que te has acercado a la respuesta correcta. ¡DIVIÉRTETE Y APRENDE!</string>
     <string name="graphic_provided_by">Graphic provided by:</string>
-    <string name="puntos">Puntos:</string>
     <string name="nulo">null</string>
     <string name="europa">Europa</string>
     <string name="natural">Natural</string>
     <string name="a_adir">Añadir</string>
-    <string name="astronauta">ASTRONAUTA</string>
     <string name="usuarios">Usuarios</string>
     <string name="espa_a">España</string>
     <string name="monumentos">Monumentos</string>
@@ -35,7 +33,25 @@
     <string name="ya_s">¡YA SÉ!</string>
     <string name="ni_idea">ni idea</string>
     <string name="siguiente_pregunta">SIGUIENTE PREGUNTA</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_0">0</string>
+    <string name="seleccione_una_pregunta_para_borrarla">Seleccione una pregunta para borrarla</string>
+    <string name="mis_preguntas">Mis Preguntas</string>
+    <string name="borrar_pregunta">borrar pregunta</string>
+    <string name="a_adir_pregunta">Añadir pregunta</string>
+    <string name="volver_al_menu">VOLVER AL MENU</string>
+    <string name="todoK">TODO</string>
+    <string name="tod">TOD</string>
+    <string name="UU">TODO</string>
+    <string name="todoUU">TODO</string>
+    <string name="todoSCA">TODO</string>
+    <string name="todoSCAC">TODO</string>
+    <string name="todoSCAVC">TODO</string>
+    <string name="marca_la_ubicacion_en_el_mapa">MARCA LA UBICACION EN EL MAPA</string>
+    <string name="escribe_tu_pregunta_aqui">Escribe tu pregunta AQUI!</string>
+    <string name="todoHVMVHM">TODO</string>
+    <string name="guardar">Guardar</string>
 
 
 </resources>

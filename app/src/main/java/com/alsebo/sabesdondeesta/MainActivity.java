@@ -11,36 +11,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button login, sign, acerca;
-    EditText email;
-    EditText password;
-
+    EditText email, password;
     FirebaseAuth mAuth;
     DatabaseReference myRef;
     FirebaseFirestore db;
-
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
     AlertDialog mDialog;
     private static final String TAG = "MyActivity";
 
@@ -48,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        prefs = getSharedPreferences("donde.esta",Context.MODE_PRIVATE);
+        editor = prefs.edit();
         
         acerca = (Button) findViewById(R.id.button2);
         acerca.setOnClickListener(this);
@@ -64,16 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            currentUser.reload();
-        }
-    }
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signUpBotton:
@@ -84,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 login();
                break;
 
-            case R.id.button2:// BOTON ACERCA
+            case R.id.button2:
                 Intent acerca = new Intent(this, MainActivityAcerca.class);
                 startActivity(acerca);
                 break;
@@ -97,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void jugar() {
         Intent play = new Intent(this, MainActivityMenu.class);
         startActivity(play);
-        finish();
     }
 
     private void showAlert(String mensaje) {
@@ -125,10 +111,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Log.d(TAG, "signInWithEmail:success");
+                                    editor.putString("email", emai );
+                                    editor.commit();
                                     jugar();
                                 } else {
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
                                     showAlert("Se ha producido un error autenticando al usuario");
                                 }
                                 mDialog.dismiss();
@@ -153,13 +139,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-
                             Map<String, Object> jugador = new HashMap<>();
                             jugador.put("ema", emai);
                             jugador.put("puntuacion", 0);
-                            jugador.put("profesor", false);
+
+                            editor.putString("email", emai );
+                            editor.commit();
 
                             db.collection("jugador").document(emai)
                                     .set(jugador)
@@ -177,11 +162,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     });
                             jugar();
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+                            showAlert("ERROR al autenticarte");
                         }
                     }
                 });
@@ -191,12 +175,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             showAlert("La contraseña y el email son obligatorios");
         }
-
     }
-
-    /**public void instagram(View view) {  //ICONO ACCEDER PAGINA WEB FACEBOOK
-        Intent facebook = new Intent(Intent.ACTION_VIEW);
-        facebook.setData(Uri.parse("https://www.facebook.com"));
-        startActivity(facebook);
-    }*/
 }
